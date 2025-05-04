@@ -61,7 +61,7 @@
                 <div id="collapseAdministracion" class="collapse" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="UsuariosSis.aspx">Usuarios</a>
-                        <a class="collapse-item" href="#">Negocio</a>
+                        <a class="collapse-item" href="UnidadesEducativas.aspx">Unds. Educativas</a>
                     </div>
                 </div>
             </li>
