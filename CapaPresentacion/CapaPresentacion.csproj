@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ActivosRegistro.aspx" />
     <Content Include="css\cardzer.css" />
     <Content Include="css\sb-admin-2.css" />
     <Content Include="css\sb-admin-2.min.css" />
@@ -80,6 +81,7 @@
     <Content Include="img\undraw_profile_3.svg" />
     <Content Include="img\undraw_rocket.svg" />
     <Content Include="IndexPage.aspx" />
+    <Content Include="jsdev\ActivosRegistro.js" />
     <Content Include="jsdev\UsuariosSis.js" />
     <Content Include="js\sb-admin-2.js" />
     <Content Include="js\sb-admin-2.min.js" />
@@ -1784,6 +1786,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivosRegistro.aspx.cs">
+      <DependentUpon>ActivosRegistro.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ActivosRegistro.aspx.designer.cs">
+      <DependentUpon>ActivosRegistro.aspx</DependentUpon>
+    </Compile>
     <Compile Include="IndexPage.aspx.cs">
       <DependentUpon>IndexPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1813,6 +1822,7 @@
     <Compile Include="UsuariosSis.aspx.designer.cs">
       <DependentUpon>UsuariosSis.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Utildades.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
