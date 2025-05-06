@@ -1,6 +1,10 @@
 ﻿
-
+let tablaActivos;
 let DetalleActili = [];
+
+//$(document).ready(function () {
+//    inicializarTablaActivos();
+//})
 
 function pruebaEncrip() {
 
@@ -83,8 +87,67 @@ $('#btnAgrgarA').on('click', function () {
     $("#txtMarca").val("");
     $("#txtSerie").val("");
     $("#txtDetalleA").val("");
-    mostrar_enTabla();
+    //mostrar_enTabla();
+    inicializarTablaActivos();
 
+});
+
+//cpu core i5 con disco duro de 500 gb y memoria ram de 8 gb sin monitor y maus
+function inicializarTablaActivos() {
+    if ($.fn.DataTable.isDataTable("#tbActivos")) {
+        $("#tbActivos").DataTable().destroy();
+        $("#tbActivos tbody").empty();
+    }
+
+    tablaActivos = $("#tbActivos").DataTable({
+        responsive: true,
+        data: DetalleActili,
+        columns: [
+            {
+                defaultContent: '<button class="btn btn-danger btn-eliminar btn-sm"><i class="fas fa-trash-alt"></i></button>',
+                orderable: false,
+                searchable: false,
+                width: "40px"
+            },
+            { data: "NombreArticulo" },
+            { data: "Marca" },
+            { data: "NroSerie" },
+            { data: "DetalleInfo" }
+        ],
+        dom: "rt",
+        language: {
+            url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+        }
+    });
+
+    $("#txtTotal").val(DetalleActili.length); // Actualiza total
+}
+
+$("#tbActivos tbody").on("click", ".btn-eliminar", function (e) {
+    e.preventDefault();
+    let filaSeleccionada;
+
+    if ($(this).closest("tr").hasClass("child")) {
+        filaSeleccionada = $(this).closest("tr").prev();
+    } else {
+        filaSeleccionada = $(this).closest("tr");
+    }
+
+    const data = tablaActivos.row(filaSeleccionada).data();
+
+    // Buscar el índice del objeto en DetalleActili para eliminarlo
+    const index = DetalleActili.findIndex(x =>
+        x.IdTipoAct === data.IdTipoAct &&
+        x.NombreArticulo === data.NombreArticulo &&
+        x.Marca === data.Marca &&
+        x.NroSerie === data.NroSerie &&
+        x.DetalleInfo === data.DetalleInfo
+    );
+
+    if (index !== -1) {
+        DetalleActili.splice(index, 1);
+        inicializarTablaActivos(); // Vuelve a cargar la tabla con datos actualizados
+    }
 });
 
 function mostrar_enTabla() {
@@ -115,32 +178,70 @@ function mostrar_enTabla() {
 
 }
 
-// Evento para eliminar una fila
-$("#tbActivos").on("click", ".btn-eliminar", function () {
-    // Obtener el índice del elemento desde el atributo data-index
-    const index = $(this).data("index");
-    console.log(index);
 
-    // Eliminar el elemento de DetalleActili
-    DetalleActili.splice(index, 1);
+//$("#tbActivos").on("click", ".btn-eliminar", function () {
+//    const index = $(this).data("index");
+//    console.log(index);
 
-    // Actualizar la tabla y el total
-    mostrar_enTabla();
-});
+//    DetalleActili.splice(index, 1);
+
+//    mostrar_enTabla();
+//});
+
+function registerDataQrDetalle() {
+    // Crear la estructura del request y asignar detalleActLiss a RequestList
+    var request = {
+        eActivo: {
+            IdUnidadEdu: $("#cboUnidadEduc").val(),
+            Comentario: $("#txtComentario").val(),
+            CantidadTotal: parseInt($("#txtTotal").val())
+        },
+        RequestList: DetalleActili  // Asignamos directamente la lista aquí parseInt($("#txtTotal").val())
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "ActivosRegistro.aspx/RegistrarQr",
+        data: JSON.stringify(request),
+        contentType: 'application/json; charset=utf-8',
+        dataType: "json",
+        beforeSend: function () {
+            $("#overlayc").LoadingOverlay("show");
+        },
+        success: function (response) {
+            $("#overlayc").LoadingOverlay("hide");
+            //console.log(response.d);
+            if (response.d.Estado) {
+                swal("Mensaje", response.d.Mensaje, "success");
+            } else {
+                swal("Mensaje", response.d.Mensaje, "warning");
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            $("#overlayc").LoadingOverlay("hide");
+            console.log(xhr.status + " \n" + xhr.responseText, "\n" + thrownError);
+        }
+    });
+}
 
 $('#btnTerminarRegi').on('click', function () {
 
-    $('#btnTerminarRegi').prop('disabled', true);
+    //$('#btnTerminarRegi').prop('disabled', true);
 
     if (DetalleActili.length < 1) {
         swal("Mensaje", "Debe agregar como minimo un activo", "warning");
-        $('#btnTerminarRegi').prop('disabled', false);
-    } else {
-        swal("Mensaje", "Registro Exitoso", "success");
-        $('#btnTerminarRegi').prop('disabled', false);
+        //$('#btnTerminarRegi').prop('disabled', false);
+        return;
     }
 
-    //pruebaEncrip();
+    if ($("#txtComentario").val().trim() === "") {
+        toastr.warning("", "Debe completar el campo Comentario");
+        $("#txtComentario").focus();
+        return;
+    }
+
+
+    registerDataQrDetalle();
 });
 
 

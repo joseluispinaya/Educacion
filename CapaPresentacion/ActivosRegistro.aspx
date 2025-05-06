@@ -107,7 +107,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-sm-12">
-                <table class="table table-striped table-sm" id="tbActivos">
+                <table class="table table-striped table-sm" id="tbActivos" cellspacing="0" style="width: 100%">
                     <thead>
                         <tr>
                             <th></th>

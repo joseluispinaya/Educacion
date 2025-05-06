@@ -22,6 +22,10 @@
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="vendor/toastr/toastr.min.css" rel="stylesheet">
     <link href="vendor/sweetalert/sweetalert.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="vendor/datatables/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="vendor/datatables/extensiones/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="vendor/datatables/extensiones/css/buttons.dataTables.min.css">
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -207,6 +211,17 @@
     <script src="vendor/toastr/toastr.min.js"></script>
     <script src="vendor/sweetalert/sweetalert.js"></script>
     <script src="vendor/loadingoverlay/loadingoverlay.min.js"></script>
+
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <script src="vendor/datatables/extensiones/js/dataTables.responsive.min.js"></script>
+
+    <script src="vendor/datatables/extensiones/js/dataTables.buttons.min.js"></script>
+    <script src="vendor/datatables/extensiones/js/jszip.min.js"></script>
+    <script src="vendor/datatables/extensiones/js/buttons.html5.min.js"></script>
+    <script src="vendor/datatables/extensiones/js/buttons.print.min.js"></script>
+
     <asp:ContentPlaceHolder ID="footer" runat="server"></asp:ContentPlaceHolder>
 </body>
 
