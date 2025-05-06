@@ -64,7 +64,8 @@
                                     <select class="custom-select" id="cboTipoArti">
                                       <option value="1">Computadora</option>
                                       <option value="2">Laptop</option>
-                                      <option value="2">Data</option>
+                                      <option value="3">Proyectora</option>
+                                      <option value="4">Monitor</option>
                                     </select>
                                   </div>
 
@@ -75,7 +76,7 @@
 
                                 <div class="form-group">
                                     <label for="txtSerie">Nro Serie</label>
-                                    <input type="text" class="form-control form-control-sm input-validar" id="txtSerie" name="Serie">
+                                    <input type="text" class="form-control form-control-sm input-validar" id="txtSerie" name="Nro Serie">
                                 </div>
 
                             </div>
@@ -117,7 +118,6 @@
                         </tr>
                     </thead>
                     <tbody>
-
                     </tbody>
                 </table>
             </div>
