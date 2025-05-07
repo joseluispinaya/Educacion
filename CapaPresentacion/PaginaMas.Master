@@ -79,7 +79,7 @@
                 <div id="collapseInventario" class="collapse" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="ActivosRegistro.aspx">Registro</a>
-                        <a class="collapse-item" href="#">Productos</a>
+                        <a class="collapse-item" href="ActivoDetalles.aspx">Detalle Activo</a>
                     </div>
                 </div>
             </li>

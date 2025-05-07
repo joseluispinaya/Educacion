@@ -43,7 +43,8 @@ namespace CapaPresentacion
                         new XElement("NombreArticulo", item.NombreArticulo),
                         new XElement("Marca", item.Marca),
                         new XElement("NroSerie", item.NroSerie),
-                        new XElement("DetalleInfo", item.DetalleInfo),
+                        //new XElement("DetalleInfo", item.DetalleInfo),
+                        new XElement("DetalleInfo", Utildades.Encrypt(item.DetalleInfo)),
                         new XElement("CodAlterno", Guid.NewGuid().ToString())
                         )
 
