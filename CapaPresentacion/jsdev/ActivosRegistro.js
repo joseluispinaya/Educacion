@@ -2,9 +2,66 @@
 let tablaActivos;
 let DetalleActili = [];
 
-//$(document).ready(function () {
-//    inicializarTablaActivos();
-//})
+$(document).ready(function () {
+    cargarTiposActivos();
+    cargarUnidadesEducativas();
+})
+
+function cargarTiposActivos() {
+    $("#cboTipoArti").html("");
+
+    $.ajax({
+        type: "POST",
+        url: "ActivosRegistro.aspx/ListaTiposActi",
+        data: {},
+        contentType: 'application/json; charset=utf-8',
+        dataType: "json",
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr.status + " \n" + xhr.responseText, "\n" + thrownError);
+        },
+        success: function (response) {
+            if (response.d.Estado) {
+                $.each(response.d.Data, function (i, row) {
+                    if (row.Activo === true) {
+                        $("<option>").attr({ "value": row.IdTipoAct }).text(row.Nombre).appendTo("#cboTipoArti");
+                    }
+
+                })
+            } else {
+                swal("Mensaje", response.d.Mensaje, "warning");
+            }
+
+        }
+    });
+}
+
+function cargarUnidadesEducativas() {
+    $("#cboUnidadEduc").html("");
+
+    $.ajax({
+        type: "POST",
+        url: "ActivosRegistro.aspx/ListaUnidadesEducativas",
+        data: {},
+        contentType: 'application/json; charset=utf-8',
+        dataType: "json",
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr.status + " \n" + xhr.responseText, "\n" + thrownError);
+        },
+        success: function (response) {
+            if (response.d.Estado) {
+                $.each(response.d.Data, function (i, row) {
+                    if (row.Activo === true) {
+                        $("<option>").attr({ "value": row.IdUnidadEdu }).text(row.Nombre).appendTo("#cboUnidadEduc");
+                    }
+
+                })
+            } else {
+                swal("Mensaje", response.d.Mensaje, "warning");
+            }
+
+        }
+    });
+}
 
 function pruebaEncrip() {
 
@@ -188,7 +245,7 @@ function mostrar_enTabla() {
 //    mostrar_enTabla();
 //});
 
-function registerDataQrDetalle() {
+function registrarActivo() {
     // Crear la estructura del request y asignar detalleActLiss a RequestList
     var request = {
         eActivo: {
@@ -201,7 +258,7 @@ function registerDataQrDetalle() {
 
     $.ajax({
         type: "POST",
-        url: "ActivosRegistro.aspx/RegistrarQr",
+        url: "ActivosRegistro.aspx/GuardarActivo",
         data: JSON.stringify(request),
         contentType: 'application/json; charset=utf-8',
         dataType: "json",
@@ -212,7 +269,14 @@ function registerDataQrDetalle() {
             $("#overlayc").LoadingOverlay("hide");
             //console.log(response.d);
             if (response.d.Estado) {
-                swal("Mensaje", response.d.Mensaje, "success");
+                DetalleActili = [];
+                inicializarTablaActivos();
+                $("#txtComentario").val("");
+
+                var idActivo = response.d.Valor;
+                swal("Mensaje", response.d.Mensaje + "\nValor Id: " + idActivo, "success");
+
+                //swal("Mensaje", response.d.Mensaje, "success");
             } else {
                 swal("Mensaje", response.d.Mensaje, "warning");
             }
@@ -220,28 +284,32 @@ function registerDataQrDetalle() {
         error: function (xhr, ajaxOptions, thrownError) {
             $("#overlayc").LoadingOverlay("hide");
             console.log(xhr.status + " \n" + xhr.responseText, "\n" + thrownError);
+        },
+        complete: function () {
+            // Rehabilitar el botón después de que la llamada AJAX se complete (éxito o error)
+            $('#btnTerminarRegi').prop('disabled', false);
         }
     });
 }
 
 $('#btnTerminarRegi').on('click', function () {
 
-    //$('#btnTerminarRegi').prop('disabled', true);
+    $('#btnTerminarRegi').prop('disabled', true);
 
     if (DetalleActili.length < 1) {
         swal("Mensaje", "Debe agregar como minimo un activo", "warning");
-        //$('#btnTerminarRegi').prop('disabled', false);
+        $('#btnTerminarRegi').prop('disabled', false);
         return;
     }
 
     if ($("#txtComentario").val().trim() === "") {
         toastr.warning("", "Debe completar el campo Comentario");
         $("#txtComentario").focus();
+        $('#btnTerminarRegi').prop('disabled', false);
         return;
     }
 
-
-    registerDataQrDetalle();
+    registrarActivo();
 });
 
 

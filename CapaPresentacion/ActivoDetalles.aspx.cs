@@ -17,6 +17,51 @@ namespace CapaPresentacion
 
 		}
 
+
+        [WebMethod]
+        public static Respuesta<EActivo> DetalleActivoFullNuevo(int IdActivo)
+        {
+            try
+            {
+                var servicioActivo = NActivo.GetInstance();
+
+                // Obtener el activo principal
+                var respuesta = servicioActivo.ObtenerActivo(IdActivo);
+                if (!respuesta.Estado || respuesta.Data == null)
+                {
+                    return new Respuesta<EActivo>
+                    {
+                        Estado = false,
+                        Mensaje = $"No se encontró el activo con ID {IdActivo}.",
+                        Data = null
+                    };
+                }
+
+                // Obtener los detalles del activo
+                var detalleRespuesta = servicioActivo.ObtenerDetalleActivosIdActivo(IdActivo);
+                if (detalleRespuesta.Estado && detalleRespuesta.Data != null)
+                {
+                    respuesta.Data.ListaDetalleActivos = detalleRespuesta.Data;
+                }
+                else
+                {
+                    respuesta.Mensaje += " No se pudieron cargar los detalles del activo.";
+                    respuesta.Data.ListaDetalleActivos = new List<EDetalleActivo>(); // Asegurar lista vacía si falla
+                }
+
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                return new Respuesta<EActivo>
+                {
+                    Estado = false,
+                    Data = null,
+                    Mensaje = "Error inesperado: " + ex.Message
+                };
+            }
+        }
+
         [WebMethod]
         public static Respuesta<EActivo> DetalleActivoFull()
         {

@@ -42,7 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EActivo.cs" />
+    <Compile Include="EArea.cs" />
     <Compile Include="EDetalleActivo.cs" />
+    <Compile Include="ETipoActivo.cs" />
+    <Compile Include="EUnidaEducativa.cs" />
     <Compile Include="EUsuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Respuesta.cs" />

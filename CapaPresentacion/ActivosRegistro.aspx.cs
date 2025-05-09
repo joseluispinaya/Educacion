@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Services;
 using CapaEntidad;
+using CapaNegocio;
 using System.Xml.Linq;
 
 namespace CapaPresentacion
@@ -18,7 +19,46 @@ namespace CapaPresentacion
 		}
 
         [WebMethod]
-        public static Respuesta<bool> RegistrarQr(EActivo eActivo, List<EDetalleActivo> RequestList)
+        public static Respuesta<List<ETipoActivo>> ListaTiposActi()
+        {
+            try
+            {
+                Respuesta<List<ETipoActivo>> Lista = NActivo.GetInstance().ListaTipoActivos();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                return new Respuesta<List<ETipoActivo>>()
+                {
+                    Estado = false,
+                    Mensaje = "Error al obtener los Tipos: " + ex.Message,
+                    Data = null
+                };
+            }
+        }
+
+        [WebMethod]
+        public static Respuesta<List<EUnidaEducativa>> ListaUnidadesEducativas()
+        {
+            try
+            {
+                Respuesta<List<EUnidaEducativa>> Lista = NActivo.GetInstance().ListaUnidadesEducativas();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                return new Respuesta<List<EUnidaEducativa>>()
+                {
+                    Estado = false,
+                    Mensaje = "Error al obtener las Unidades educativas: " + ex.Message,
+                    Data = null
+                };
+            }
+        }
+
+
+        [WebMethod]
+        public static Respuesta<bool> RegistrarActivo(EActivo eActivo, List<EDetalleActivo> RequestList)
         {
             try
             {
@@ -43,9 +83,9 @@ namespace CapaPresentacion
                         new XElement("NombreArticulo", item.NombreArticulo),
                         new XElement("Marca", item.Marca),
                         new XElement("NroSerie", item.NroSerie),
-                        //new XElement("DetalleInfo", item.DetalleInfo),
-                        new XElement("DetalleInfo", Utildades.Encrypt(item.DetalleInfo)),
-                        new XElement("CodAlterno", Guid.NewGuid().ToString())
+                        new XElement("DetalleInfo", item.DetalleInfo)
+                        //new XElement("DetalleInfo", Utildades.Encrypt(item.DetalleInfo)),
+                        //new XElement("CodAlterno", Guid.NewGuid().ToString())
                         )
 
                     );
@@ -65,6 +105,55 @@ namespace CapaPresentacion
             catch (Exception ex)
             {
                 return new Respuesta<bool> { Estado = false, Mensaje = "Ocurrió un error: " + ex.Message };
+            }
+        }
+
+        [WebMethod]
+        public static Respuesta<int> GuardarActivo(EActivo eActivo, List<EDetalleActivo> RequestList)
+        {
+            try
+            {
+                if (RequestList == null || !RequestList.Any())
+                {
+                    return new Respuesta<int> { Estado = false, Mensaje = "La lista está vacía" };
+                }
+
+                XElement activoa = new XElement("Activo",
+                    new XElement("IdUnidadEdu", eActivo.IdUnidadEdu),
+                    new XElement("Comentario", eActivo.Comentario),
+                    new XElement("CantidadTotal", eActivo.CantidadTotal)
+                );
+
+                XElement detalleActivo = new XElement("DetalleActivo");
+
+                foreach (EDetalleActivo item in RequestList)
+                {
+                    detalleActivo.Add(new XElement("Item",
+
+                        new XElement("IdTipoAct", item.IdTipoAct),
+                        new XElement("NombreArticulo", item.NombreArticulo),
+                        new XElement("Marca", item.Marca),
+                        new XElement("NroSerie", item.NroSerie),
+                        new XElement("DetalleInfo", item.DetalleInfo)
+                        )
+
+                    );
+                }
+
+                activoa.Add(detalleActivo);
+
+                // Llamar a RegistrarActivo en la capa de negocio y recibir la respuesta
+                Respuesta<int> respuesta = NActivo.GetInstance().RegistrarActivo(activoa.ToString());
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                // Capturar cualquier error y retornar una respuesta de fallo
+                return new Respuesta<int>
+                {
+                    Estado = false,
+                    Mensaje = "Ocurrió un error: " + ex.Message
+                };
             }
         }
 
@@ -90,5 +179,7 @@ namespace CapaPresentacion
                 return new Respuesta<string>() { Estado = false, Mensaje = "Error al obtener encriptado" };
             }
         }
+
+
     }
 }

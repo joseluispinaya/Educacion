@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PaginaMas.Master" AutoEventWireup="true" CodeBehind="ActivoDetalles.aspx.cs" Inherits="CapaPresentacion.ActivoDetalles" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link href="css/switchjo.css" rel="stylesheet">
     <style>
         .align-middlea {
             vertical-align: middle !important;
@@ -12,14 +13,12 @@
             height: 34px;
         }
 
-            /* Hide default HTML checkbox */
             .switches input {
                 opacity: 0;
                 width: 0;
                 height: 0;
             }
 
-        /* The slider */
         .slidera {
             position: absolute;
             cursor: pointer;
@@ -58,7 +57,6 @@
             transform: translateX(26px);
         }
 
-        /* Rounded sliders */
         .slidera.round {
             border-radius: 34px;
         }
@@ -80,6 +78,8 @@
                     <div class="text-start" style="font-size: 14px">
                         <p id="lblCodigo" class="m-1">Nom</p>
                         <p id="lblCantida" class="m-1">Dir</p>
+                        <p id="lblUnidad" class="m-1">Un</p>
+                        <p id="lblRespo" class="m-1">Res</p>
                     </div>
                     <div class="row justify-content-center mb-2">
                         <button type="button" id="btnVerDeta" class="btn btn-success btn-sm mr-3"><i class="fas fa-user-plus"></i> Prueba detalle</button>
@@ -109,6 +109,38 @@
         <div class="row">
             <div class="col-sm-12">
                 <table class="table table-striped table-sm" id="tbDeActivos" cellspacing="0" style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>QR</th>
+                            <th>Activo</th>
+                            <th>Marca</th>
+                            <th>Nro Serie</th>
+                            <th>Detalle</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="card shadow mb-4">
+    <div class="card-header py-3 bg-second-primary">
+        <h6 class="m-0 font-weight-bold text-white">Detalle de activos</h6>
+    </div>
+    <div class="card-body">
+        <div class="row justify-content-center mb-4">
+            <button type="button" id="btnImprimircc" class="btn btn-success btn-sm mr-3"><i class="fas fa-print"></i> Imprimir QR</button>
+            <button type="button" id="btnInotrocc" class="btn btn-primary btn-sm"><i class="fas fa-tools"></i> Alterno</button>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped table-sm" id="tbDeActivosdo" cellspacing="0" style="width: 100%">
                     <thead>
                         <tr>
                             <th>Id</th>

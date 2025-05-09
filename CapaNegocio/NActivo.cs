@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CapaDatos;
 using CapaEntidad;
 
 namespace CapaNegocio
@@ -21,6 +22,31 @@ namespace CapaNegocio
             return daoEmpleado;
         }
         #endregion
+
+        public Respuesta<int> RegistrarActivo(string ActivoXml)
+        {
+            return DActivo.GetInstance().RegistrarActivo(ActivoXml);
+        }
+
+        public Respuesta<EActivo> ObtenerActivo(int IdActivo)
+        {
+            return DActivo.GetInstance().ObtenerActivo(IdActivo);
+        }
+
+        public Respuesta<List<EDetalleActivo>> ObtenerDetalleActivosIdActivo(int IdActivo)
+        {
+            return DActivo.GetInstance().ObtenerDetalleActivosIdActivo(IdActivo);
+        }
+
+        public Respuesta<List<ETipoActivo>> ListaTipoActivos()
+        {
+            return DActivo.GetInstance().ListaTipoActivos();
+        }
+
+        public Respuesta<List<EUnidaEducativa>> ListaUnidadesEducativas()
+        {
+            return DActivo.GetInstance().ListaUnidadesEducativas();
+        }
 
         public Respuesta<EActivo> ActivoPrueba()
         {

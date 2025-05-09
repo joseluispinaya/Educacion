@@ -19,8 +19,6 @@
                               <label class="input-group-text" for="cboUnidadEduc">Unidad</label>
                             </div>
                             <select class="custom-select" id="cboUnidadEduc">
-                              <option value="1">Walter Alpire</option>
-                              <option value="2">Elim II</option>
                             </select>
                           </div>
 
@@ -62,10 +60,6 @@
                                       <label class="input-group-text" for="cboTipoArti">Articulo</label>
                                     </div>
                                     <select class="custom-select" id="cboTipoArti">
-                                      <option value="1">Computadora</option>
-                                      <option value="2">Laptop</option>
-                                      <option value="3">Proyectora</option>
-                                      <option value="4">Monitor</option>
                                     </select>
                                   </div>
 

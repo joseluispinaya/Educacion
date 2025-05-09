@@ -1,0 +1,71 @@
+﻿.flipswitch {
+    position: relative;
+    width: 60px; /* antes: 100px */
+}
+
+    .flipswitch input[type=checkbox] {
+        display: none;
+    }
+
+.flipswitch-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid #999999;
+    border-radius: 50px;
+}
+
+.flipswitch-inner {
+    width: 200%;
+    margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+
+    .flipswitch-inner:before, .flipswitch-inner:after {
+        float: left;
+        width: 50%;
+        height: 20px; /* antes: 30px */
+        padding: 0;
+        line-height: 20px; /* antes: 30px */
+        font-size: 14px; /* antes: 20px */
+        color: white;
+        font-family: Trebuchet, Arial, sans-serif;
+        font-weight: bold;
+        box-sizing: border-box;
+    }
+
+    .flipswitch-inner:before {
+        content: "ON";
+        padding-left: 10px; /* ajustado 18px */
+        background-color: #437A99;
+        color: #FFFFFF;
+    }
+
+    .flipswitch-inner:after {
+        content: "OFF";
+        padding-right: 10px; /* ajustado 18px */
+        background-color: #FFFFFF;
+        color: #437A99;
+        text-align: right;
+    }
+
+.flipswitch-switch {
+    width: 20px; /* antes: 35px */
+    margin: -1px;
+    background: #FFFFFF;
+    border: 1px solid #999999;
+    border-radius: 50px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 40px; /* antes: 67px */
+    transition: all 0.3s ease-in 0s;
+}
+
+.flipswitch-cb:checked + .flipswitch-label .flipswitch-inner {
+    margin-left: 0;
+}
+
+.flipswitch-cb:checked + .flipswitch-label .flipswitch-switch {
+    right: 0;
+}

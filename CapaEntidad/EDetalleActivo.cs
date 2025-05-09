@@ -12,6 +12,7 @@
         public string RutaQR { get; set; }
         public string CodAlterno { get; set; }
         public bool Activo { get; set; }
+        public ETipoActivo RefTipoActivo { get; set; }
 
         public string ImageQr => string.IsNullOrEmpty(RutaQR)
             ? $"/Imagenes/capturaqr.png"
