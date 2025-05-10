@@ -6,70 +6,35 @@
             vertical-align: middle !important;
         }
 
-        .switches {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
+        .cardze {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid lightgray;
+            box-shadow: 2px 2px 8px 4px #d3d3d3d1;
+            border-radius: 15px;
+            font-family: sans-serif;
+            margin: 5px;
         }
 
-            .switches input {
-                opacity: 0;
-                width: 0;
-                height: 0;
-            }
-
-        .slidera {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            -webkit-transition: .4s;
-            transition: .4s;
+        .imageze {
+            height: 100px;
+            width: 100px;
+            margin: 0 auto;
         }
 
-            .slidera:before {
-                position: absolute;
-                content: "";
-                height: 26px;
-                width: 26px;
-                left: 4px;
-                bottom: 4px;
-                background-color: white;
-                -webkit-transition: .4s;
-                transition: .4s;
-            }
-
-        input:checked + .slidera {
-            background-color: green;
-        }
-
-        input:focus + .slidera {
-            box-shadow: 0 0 1px #2196F3;
-        }
-
-        input:checked + .slidera:before {
-            -webkit-transform: translateX(26px);
-            -ms-transform: translateX(26px);
-            transform: translateX(26px);
-        }
-
-        .slidera.round {
-            border-radius: 34px;
-        }
-
-            .slidera.round:before {
-                border-radius: 50%;
+            .imageze .imgre {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+                border: 2px solid #fff;
             }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="card shadow mb-4">
         <div class="card-header py-3 bg-second-primary">
-            <h6 class="m-0 font-weight-bold text-white">Datos del Negocio</h6>
+            <h6 class="m-0 font-weight-bold text-white">Detalle General</h6>
         </div>
         <div class="card-body">
 
@@ -97,68 +62,21 @@
     </div>
 
     <div class="card shadow mb-4">
-    <div class="card-header py-3 bg-second-primary">
-        <h6 class="m-0 font-weight-bold text-white">Detalle de activos</h6>
-    </div>
-    <div class="card-body">
-        <div class="row justify-content-center mb-4">
-            <button type="button" id="btnImprimir" class="btn btn-success btn-sm mr-3"><i class="fas fa-print"></i> Imprimir QR</button>
-            <button type="button" id="btnInotro" class="btn btn-primary btn-sm"><i class="fas fa-tools"></i> Alterno</button>
+        <div class="card-header py-3 bg-second-primary">
+            <h6 class="m-0 font-weight-bold text-white"><i class="fas fa-address-book mr-3"></i>Detalles de activos</h6>
         </div>
+        <div class="card-body">
+            <div class="row justify-content-center mb-4">
+                <button type="button" id="btnImprimir" class="btn btn-success btn-sm mr-3"><i class="fas fa-print"></i> Imprimir</button>
+                <button type="button" id="btnGenerarQrs" class="btn btn-secondary btn-sm mr-3"><i class="fas fa-qrcode"></i> Generar QR</button>
+                <button type="button" id="btnInotro" class="btn btn-primary btn-sm"><i class="fas fa-tools"></i> Alterno</button>
+            </div>
 
-        <div class="row">
-            <div class="col-sm-12">
-                <table class="table table-striped table-sm" id="tbDeActivos" cellspacing="0" style="width: 100%">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>QR</th>
-                            <th>Activo</th>
-                            <th>Marca</th>
-                            <th>Nro Serie</th>
-                            <th>Detalle</th>
-                            <th>Accion</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+            <div class="row gx-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-start mt-1"
+                id="listarqr">
             </div>
         </div>
     </div>
-</div>
-
-    <div class="card shadow mb-4">
-    <div class="card-header py-3 bg-second-primary">
-        <h6 class="m-0 font-weight-bold text-white">Detalle de activos</h6>
-    </div>
-    <div class="card-body">
-        <div class="row justify-content-center mb-4">
-            <button type="button" id="btnImprimircc" class="btn btn-success btn-sm mr-3"><i class="fas fa-print"></i> Imprimir QR</button>
-            <button type="button" id="btnInotrocc" class="btn btn-primary btn-sm"><i class="fas fa-tools"></i> Alterno</button>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-12">
-                <table class="table table-striped table-sm" id="tbDeActivosdo" cellspacing="0" style="width: 100%">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>QR</th>
-                            <th>Activo</th>
-                            <th>Marca</th>
-                            <th>Nro Serie</th>
-                            <th>Detalle</th>
-                            <th>Accion</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="footer" runat="server">

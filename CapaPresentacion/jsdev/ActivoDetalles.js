@@ -1,5 +1,5 @@
 ﻿
-var table;
+//var table;
 var tabledos;
 let opcion = false;
 let detalleActLiss = [];
@@ -24,8 +24,8 @@ function CargarDatosActivo() {
             if (response.d.Estado) {
                 var activo = response.d.Data;
                 detalleActLiss = activo.ListaDetalleActivos;
-                cargarTable();
-                cargarTabledos();
+                listaDetalleActivos();
+                //cargarTabledos();
                 //console.log(activo); 
 
                 var canti = activo.CantidadTotal;
@@ -47,147 +47,98 @@ function CargarDatosActivo() {
     });
 }
 
-function cargarTabledos() {
+function listaDetalleActivos() {
+    $("#listarqr").empty();
 
-    if ($.fn.DataTable.isDataTable("#tbDeActivosdo")) {
-        $("#tbDeActivosdo").DataTable().destroy();
-        $('#tbDeActivosdo tbody').empty();
-    }
+    detalleActLiss.forEach(function (activodetalle, index) {
+        const isChecked = activodetalle.Activo ? 'checked' : '';
+        const switchId = `flipswitch-${index}`;
 
-    // Inicializar DataTable con los datos de detalleActLista
-    tabledos = $("#tbDeActivosdo").DataTable({
-        responsive: true,
-        data: detalleActLiss, // Usar la lista de detalles local
-        columns: [
-            { data: "IdDetalleActivo", visible: false, searchable: false },
-            {
-                data: "ImageQr",
-                className: "align-middlea",
-                render: function (data) {
-                    return `<img style="height:40px" src=${data} class="rounded mx-auto d-block"/>`;
-                },
-                orderable: false,
-                searchable: false,
-                width: "50px"
-            },
-            { data: "NombreArticulo", className: "align-middlea" },
-            { data: "Marca", className: "align-middlea" },
-            { data: "NroSerie", className: "align-middlea" },
-            { data: "DetalleInfo", className: "align-middlea" },
-            {
-                data: "Activo",
-                className: "align-middlea",
-                render: function (data, type, row, meta) {
-                    const id = `flipswitch-${meta.row}`; // Para que cada ID sea único
-                    return `
-                        <div class="flipswitch">
-                            <input type="checkbox" id="${id}" class="flipswitch-cb" name="flipswitch"
-                                ${data ? 'checked' : ''}>
-                            <label for="${id}" class="flipswitch-label">
-                                <div class="flipswitch-inner"></div>
-                                <div class="flipswitch-switch"></div>
-                            </label>
+        const cardHtml = `
+            <div class="col mb-3">
+                <div class="cardze h-100">
+                    <div class="text-center" style="padding-top: 10px;">
+                        <div class="imageze">
+                            <img class="imgre" src="${activodetalle.ImageQr}" alt="Foto usuario">
                         </div>
-                    `;
-                }
-            }
-        ],
-        order: [[0, "desc"]],
-        dom: "rt",
-        language: {
-            url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
-        }
+                    </div>
+                    <div class="card-body" style="padding: 0.2rem 1.25rem;">
+                        <div class="text-start" style="font-size:14px">
+                            <p class="m-1"><b>Activo: </b>${activodetalle.NombreArticulo}</p>
+                            <p class="m-1"><b>Nro Serie: </b>${activodetalle.NroSerie}</p>
+                            <p class="m-1"><b>Detalle: </b>${activodetalle.DetalleInfo}</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <p class="m-0" style="font-size: 12px"><b>Cambiar: </b>Estado</p>
+                                <div class="flipswitch">
+                                    <input type="checkbox" id="${switchId}" class="flipswitch-cb" data-index="${index}" ${isChecked}>
+                                    <label for="${switchId}" class="flipswitch-label">
+                                        <div class="flipswitch-inner"></div>
+                                        <div class="flipswitch-switch"></div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 text-center">
+                                <a href="#" class="btn btn-sm btn-secondary btn-editar"
+                                data-activodetalle='${encodeURIComponent(JSON.stringify(activodetalle))}'>
+                                <i class="fas fa-pencil-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+        $("#listarqr").append(cardHtml);
     });
 }
 
-$("#tbDeActivosdo tbody").on("change", ".flipswitch-cb", function () {
-    // Obtener el estado del checkbox (1 si está checked, 0 si no lo está)
-    var estatus = $(this).prop('checked') ? 1 : 0;
-    var textoProgreso = estatus ? "Activar" : "Desactivar";
+$("#listarqr").on("change", ".flipswitch-cb", function () {
+    const estatus = $(this).prop("checked") ? 1 : 0;
+    const textoProgreso = estatus ? "Activar" : "Desactivar";
+    const index = $(this).data("index");
+    const model = detalleActLiss[index];
+    console.log(model);
 
-    let filaSeleccionada;
-    var checkbox = $(this);
+    const estadoOriginal = model.Activo;
 
-    // Verificar si la fila seleccionada es una fila 'child' de una fila expandida
-    if ($(this).closest("tr").hasClass("child")) {
-        filaSeleccionada = $(this).closest("tr").prev();
-    } else {
-        filaSeleccionada = $(this).closest("tr");
-    }
-
-    const model = tabledos.row(filaSeleccionada).data();
-
-    swal("Mensaje", "Texto: " + textoProgreso + "\nMarca: " + model.Marca, "success");
+    swal({
+        title: "Mensaje de Confirmación",
+        text: `¿Está seguro de ${textoProgreso} el Detalle Activo?`,
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "Sí, Aceptar",
+        cancelButtonText: "No, Cancelar",
+        closeOnConfirm: false,
+        closeOnCancel: true
+    }, function (respuesta) {
+        if (respuesta) {
+            // Aquí va el código para cambiar el estado del detalle activo
+            // cambiarEstadoDetalleActivo(model);
+            swal("Mensaje", "Accion exitosa", "success");
+        } else {
+            // Revertir el checkbox si se canceló
+            $(`#flipswitch-${index}`).prop('checked', estadoOriginal);
+        }
+    });
 });
 
-function cargarTable() {
+$(document).on("click", ".btn-editar", function (e) {
+    e.preventDefault();
 
-    if ($.fn.DataTable.isDataTable("#tbDeActivos")) {
-        $("#tbDeActivos").DataTable().destroy();
-        $('#tbDeActivos tbody').empty();
+    var activodetalleStr = decodeURIComponent($(this).attr("data-activodetalle"));
+    //var activodetalleStr = $(this).attr("data-activodetalle");
+    var detalle = JSON.parse(activodetalleStr);
+
+    if (!detalle || !detalle.IdDetalleActivo) {
+        console.warn("Objeto detalle inválido", detalle);
+        return;
     }
-
-    // Inicializar DataTable con los datos de detalleActLista
-    table = $("#tbDeActivos").DataTable({
-        responsive: true,
-        data: detalleActLiss, // Usar la lista de detalles local
-        columns: [
-            { data: "IdDetalleActivo", visible: false, searchable: false },
-            {
-                data: "ImageQr",
-                className: "align-middlea",
-                render: function (data) {
-                    return `<img style="height:40px" src=${data} class="rounded mx-auto d-block"/>`;
-                },
-                orderable: false,
-                searchable: false,
-                width: "50px"
-            },
-            { data: "NombreArticulo", className: "align-middlea" },
-            { data: "Marca", className: "align-middlea" },
-            { data: "NroSerie", className: "align-middlea" },
-            { data: "DetalleInfo", className: "align-middlea" },
-            {
-                data: "Activo",
-                className: "align-middlea",
-                render: function (data) {
-                    return '<label class="switches">' +
-                        '<input type="checkbox" class="switchera" ' + (data ? 'checked' : '') + ' data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Activo" data-off="No Activo">' +
-                        '<span class="slidera round"></span>' +
-                        '</label>';
-                }
-            }
-        ],
-        order: [[0, "desc"]],
-        dom: "rt",
-        language: {
-            url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
-        }
-    });
-}
-
-// Evento change para los checkbox con clase .switcher
-$("#tbDeActivos tbody").on("change", ".switchera", function () {
-    // Obtener el estado del checkbox (1 si está checked, 0 si no lo está)
-    var estatus = $(this).prop('checked') == true ? 1 : 0;
-    var textoProgreso = estatus ? "Activar" : "Desactivar";
-    let filaSeleccionada;
-
-    var checkbox = $(this);
-
-
-
-    // Verificar si la fila seleccionada es una fila 'child' de una fila expandida
-    if ($(this).closest("tr").hasClass("child")) {
-        filaSeleccionada = $(this).closest("tr").prev();
-    } else {
-        filaSeleccionada = $(this).closest("tr");
-    }
-
-    const model = table.row(filaSeleccionada).data();
-
-    swal("Mensaje", "Texto: " + textoProgreso + "\nMarca: " + model.Marca, "success");
-
+    console.log(detalle);
+    //resto de mi logica
 });
 
 $('#btnVerDeta').on('click', function () {

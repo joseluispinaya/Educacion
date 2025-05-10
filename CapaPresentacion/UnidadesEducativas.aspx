@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PaginaMas.Master" AutoEventWireup="true" CodeBehind="UnidadesEducativas.aspx.cs" Inherits="CapaPresentacion.UnidadesEducativas" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link href="css/switchjo.css" rel="stylesheet">
     <style>
         .cardze {
             display: flex;
@@ -11,6 +12,22 @@
             font-family: sans-serif;
             margin: 5px;
         }
+        .imageze {
+            height: 100px;
+            width: 100px;
+            /*background: #8e44ad;
+            padding: 3px;
+            border-radius: 50%;*/
+            margin: 0 auto;
+        }
+
+            .imageze .imgre {
+                height: 100%;
+                width: 100%;
+                /*border-radius: 50%;*/
+                object-fit: cover;
+                border: 2px solid #fff;
+            }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -27,19 +44,21 @@
         <div class="row gx-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-start mt-1" id="listaUn">
             <div class="col mb-3">
                 <div class="cardze h-100">
-                    <div class="text-center" style="padding-top: 20px;">
-                        <i class="fas fa-school" style="font-size:50px"></i>
+                    <div class="text-center"  style="padding-top: 10px;">
+                        <div class="imageze">
+                            <img class="imgre" src="imgqr/soloqr.jpg" alt="Foto usuario">
+                        </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="padding: 0.2rem 1.25rem;">
                         <div class="text-start" style="font-size:14px">
                             <p class="m-1">Nombre de unidad 1</p>
                             <p class="m-1">Direccion de un</p>
-                            <p class="m-1">Responsable</p>
+                            <p class="m-1">Responsable Responsable Responsable Responsable Responsable</p>
                         </div>
                     </div>
                     <div class="card-footer text-center">
-                        <a href="#" class="btn btn-sm btn-secondary"><i class="fas fa-pencil-alt"></i> Editar</a>
-                        <button class="btn btn-sm btn-primary"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                        <a href="#" class="btn btn-sm btn-secondary"><i class="fas fa-pencil-alt"></i>Editar</a>
+                        <button class="btn btn-sm btn-primary"><i class="fas fa-trash-alt"></i>Eliminar</button>
                     </div>
                 </div>
             </div>

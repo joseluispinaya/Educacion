@@ -246,7 +246,7 @@ namespace CapaDatos
             {
                 List<EUnidaEducativa> rptLista = new List<EUnidaEducativa>();
 
-                using (SqlConnection con = ConexionBada.GetInstance().ConexionDB())
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
                 {
                     using (SqlCommand comando = new SqlCommand("usp_ObtenerUnidadesEduca", con))
                     {
@@ -293,6 +293,80 @@ namespace CapaDatos
             }
         }
 
+        public Respuesta<bool> ActualizarDetalleActivos(EDetalleActivo oDetalleActivo)
+        {
+            try
+            {
+                bool respuesta = false;
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand cmd = new SqlCommand("sp_ActualizarDetalleActivo", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@IdDetalleActivo", oDetalleActivo.IdDetalleActivo);
+                        cmd.Parameters.AddWithValue("@RutaQr", oDetalleActivo.RutaQR);
+                        cmd.Parameters.AddWithValue("@CodAlterno", oDetalleActivo.CodAlterno);
+
+                        SqlParameter outputParam = new SqlParameter("@Resultado", SqlDbType.Bit)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(outputParam);
+
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        respuesta = Convert.ToBoolean(outputParam.Value);
+                    }
+                }
+                return new Respuesta<bool>
+                {
+                    Estado = respuesta,
+                    Mensaje = respuesta ? "Se Actualizo correctamente" : "Error al Actualizar intente mas tarde"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Respuesta<bool> { Estado = false, Mensaje = "Ocurrió un error: " + ex.Message };
+            }
+        }
+
+        public Respuesta<bool> CambiaEstadoDetalleActivo(int IdDetalleActivo, bool Estado)
+        {
+            try
+            {
+                bool respuesta = false;
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand cmd = new SqlCommand("sp_CambiarEstadoDetalleAct", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@IdDetalleActivo", IdDetalleActivo);
+                        cmd.Parameters.AddWithValue("@Estado", Estado);
+
+                        SqlParameter outputParam = new SqlParameter("@Resultado", SqlDbType.Bit)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(outputParam);
+
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        respuesta = Convert.ToBoolean(outputParam.Value);
+                    }
+                }
+                return new Respuesta<bool>
+                {
+                    Estado = respuesta,
+                    Mensaje = respuesta ? "Se Actualizo el estado correctamente" : "Error al Actualizar intente mas tarde"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Respuesta<bool> { Estado = false, Mensaje = "Ocurrió un error: " + ex.Message };
+            }
+        }
 
     }
 }

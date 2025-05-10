@@ -77,6 +77,7 @@
     <Content Include="Imagenes\img1.jpeg" />
     <Content Include="Imagenes\img2.jpeg" />
     <Content Include="Imagenes\imgjo.jpg" />
+    <Content Include="imgqr\soloqr.jpg" />
     <Content Include="img\undraw_posting_photo.svg" />
     <Content Include="img\undraw_profile.svg" />
     <Content Include="img\undraw_profile_1.svg" />
