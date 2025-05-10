@@ -17,7 +17,6 @@ namespace CapaPresentacion
 
 		}
 
-
         [WebMethod]
         public static Respuesta<EActivo> DetalleActivoFullNuevo(int IdActivo)
         {
@@ -62,6 +61,7 @@ namespace CapaPresentacion
             }
         }
 
+        //no se usa
         [WebMethod]
         public static Respuesta<EActivo> DetalleActivoFull()
         {
@@ -79,6 +79,119 @@ namespace CapaPresentacion
                 // Manejo de excepciones
                 return new Respuesta<EActivo>() { Estado = false, Data = null, Mensaje = ex.Message };
             }
+        }
+
+        [WebMethod]
+        public static Respuesta<bool> CambiaEstadoDetalleActivo(int IdDetalleActivo, bool Estado)
+        {
+            try
+            {
+                if (IdDetalleActivo <= 0)
+                {
+                    return new Respuesta<bool>() { Estado = false, Mensaje = "Intente Nuevamente activo invalido" };
+                }
+
+                Respuesta<bool> respuesta = NActivo.GetInstance().CambiaEstadoDetalleActivo(IdDetalleActivo, Estado);
+
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                return new Respuesta<bool> { Estado = false, Mensaje = "Ocurrió un error: " + ex.Message };
+            }
+        }
+
+        [WebMethod]
+        public static Respuesta<bool> GenerarQr(List<EDetalleActivo> RequestList)
+        {
+            try
+            {
+                if (RequestList == null || !RequestList.Any())
+                {
+                    return new Respuesta<bool> { Estado = false, Mensaje = "La lista esta vacia" };
+                }
+                int cantReg = 0;
+                int cantNoReg = 0;
+
+                foreach (var request in RequestList)
+                {
+                    if (RegistrarDetalleQrNue(request))
+                    {
+                        cantReg++;
+                    }
+                    else
+                    {
+                        cantNoReg++;
+                    }
+                }
+
+                return new Respuesta<bool>
+                {
+                    Estado = cantReg > 0,
+                    Valor = cantReg.ToString(), // Se envía la cantidad de registros exitosos
+                    Mensaje = cantReg > 0
+                        ? $"Registro realizado correctamente. Éxitos: {cantReg}, Fallos: {cantNoReg}"
+                        : "Error al registrar, intente más tarde."
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Respuesta<bool> { Estado = false, Mensaje = "Ocurrió un error: " + ex.Message };
+            }
+        }
+
+        private static bool RegistrarDetalleQrNue(EDetalleActivo request)
+        {
+            if (request == null || request.IdDetalleActivo <= 0)
+                return false;
+
+            if (!string.IsNullOrEmpty(request.RutaQR))
+                return true;
+
+            string codigoAlt = Utildades.Encrypt(Guid.NewGuid().ToString());
+            string imageUrl = Serviciosj.GetInstance().GenerarQrActivo(codigoAlt);
+
+            if (string.IsNullOrEmpty(imageUrl))
+                return false;
+
+            var detalleActualizado = new EDetalleActivo
+            {
+                IdDetalleActivo = request.IdDetalleActivo,
+                RutaQR = imageUrl,
+                CodAlterno = codigoAlt
+            };
+
+            var respuesta = NActivo.GetInstance().ActualizarDetalleActivos(detalleActualizado);
+            return respuesta.Estado;
+        }
+
+        private static bool RegistrarDetalleQr(EDetalleActivo request)
+        {
+            bool res = false;
+            var codigoAlt = Utildades.Encrypt(Guid.NewGuid().ToString());
+
+            string imageUrld = request.RutaQR;
+            if (!string.IsNullOrEmpty(imageUrld))
+            {
+                res = true;
+            }
+            else
+            {
+                string imageUrl = Serviciosj.GetInstance().GenerarQrActivo(codigoAlt);
+                if (!string.IsNullOrEmpty(imageUrl))
+                {
+                    var odetalle = new EDetalleActivo
+                    {
+                        IdDetalleActivo = request.IdDetalleActivo,
+                        RutaQR = imageUrl,
+                        CodAlterno = codigoAlt
+                    };
+                    Respuesta<bool> respua = NActivo.GetInstance().ActualizarDetalleActivos(odetalle);
+                    res = respua.Estado;
+                }
+            }
+
+            return res;
         }
     }
 }

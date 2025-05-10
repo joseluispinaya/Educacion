@@ -65,7 +65,7 @@
         <div class="card-header py-3 bg-second-primary">
             <h6 class="m-0 font-weight-bold text-white"><i class="fas fa-address-book mr-3"></i>Detalles de activos</h6>
         </div>
-        <div class="card-body">
+        <div class="card-body" id="cargaloa">
             <div class="row justify-content-center mb-4">
                 <button type="button" id="btnImprimir" class="btn btn-success btn-sm mr-3"><i class="fas fa-print"></i> Imprimir</button>
                 <button type="button" id="btnGenerarQrs" class="btn btn-secondary btn-sm mr-3"><i class="fas fa-qrcode"></i> Generar QR</button>

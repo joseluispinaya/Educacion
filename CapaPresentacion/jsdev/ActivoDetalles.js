@@ -114,15 +114,40 @@ $("#listarqr").on("change", ".flipswitch-cb", function () {
         cancelButtonText: "No, Cancelar",
         closeOnConfirm: false,
         closeOnCancel: true
-    }, function (respuesta) {
+    },
+        function (respuesta) {
         if (respuesta) {
-            // Aquí va el código para cambiar el estado del detalle activo
-            // cambiarEstadoDetalleActivo(model);
-            swal("Mensaje", "Accion exitosa", "success");
+            $(".showSweetAlert").LoadingOverlay("show");
+            var request = {
+                IdDetalleActivo: model.IdDetalleActivo,
+                Estado: (estatus == 1 ? true : false)
+            };
+            $.ajax({
+                type: "POST",
+                url: "ActivoDetalles.aspx/CambiaEstadoDetalleActivo",
+                data: JSON.stringify(request),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "json",
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $(".showSweetAlert").LoadingOverlay("hide");
+                    console.log(xhr.status + " \n" + xhr.responseText, "\n" + thrownError);
+                },
+                success: function (response) {
+                    $(".showSweetAlert").LoadingOverlay("hide");
+                    if (response.d.Estado) {
+                        CargarDatosActivo();
+                        swal("Mensaje", response.d.Mensaje, "success");
+                    } else {
+                        swal("Mensaje", response.d.Mensaje, "error");
+                    }
+
+                }
+            });
         } else {
-            // Revertir el checkbox si se canceló
+            // Si el usuario cancela, revertir el estado del checkbox
             $(`#flipswitch-${index}`).prop('checked', estadoOriginal);
         }
+
     });
 });
 
@@ -139,6 +164,55 @@ $(document).on("click", ".btn-editar", function (e) {
     }
     console.log(detalle);
     //resto de mi logica
+});
+
+function registerDataQrDetalle() {
+    // Crear la estructura del request y asignar detalleActLiss a RequestList
+    var request = {
+        RequestList: detalleActLiss  // Asignamos directamente la lista aquí
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "ActivoDetalles.aspx/GenerarQr",
+        data: JSON.stringify(request),
+        contentType: 'application/json; charset=utf-8',
+        dataType: "json",
+        beforeSend: function () {
+            $("#cargaloa").LoadingOverlay("show");
+        },
+        success: function (response) {
+            $("#cargaloa").LoadingOverlay("hide");
+            //console.log(response.d);
+            if (response.d.Estado) {
+                CargarDatosActivo();
+                swal("Mensaje", response.d.Mensaje, "success");
+            } else {
+                swal("Mensaje", response.d.Mensaje, "warning");
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            $("#cargaloa").LoadingOverlay("hide");
+            console.log(xhr.status + " \n" + xhr.responseText, "\n" + thrownError);
+        }
+    });
+}
+
+$('#btnGenerarQrs').on('click', function () {
+    if (detalleActLiss.length < 1) {
+        swal("Mensaje", "No existe una lista de activos", "warning");
+        return;
+    }
+
+    // Validación: Si existe algún valor en "RutaQR", deshabilitar el botón
+    const hasRutaQR = detalleActLiss.some(item => item.RutaQR && item.RutaQR.trim() !== "");
+
+    if (hasRutaQR) {
+        swal("Mensaje", "La lista de Detalle Activo ya cuenta con QR", "warning");
+        return;
+    }
+
+    registerDataQrDetalle();
 });
 
 $('#btnVerDeta').on('click', function () {

@@ -274,9 +274,27 @@ function registrarActivo() {
                 $("#txtComentario").val("");
 
                 var idActivo = response.d.Valor;
-                swal("Mensaje", response.d.Mensaje + "\nValor Id: " + idActivo, "success");
+                swal({
+                    title: "Mensaje",
+                    text: "Desea ver el detalle y generar QR?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Sí, Aceptar",
+                    cancelButtonText: "No, cancelar",
+                    closeOnConfirm: false,
+                    closeOnCancel: true
+                },
+                    function (respuesta) {
+                        if (respuesta) {
 
-                //swal("Mensaje", response.d.Mensaje, "success");
+                            var url = 'ActivoDetalles.aspx?id=' + idActivo;
+                            //console.log(url);
+                            window.location.href = url;
+                        }
+                    });
+                //swal("Mensaje", response.d.Mensaje + "\nValor Id: " + idActivo, "success");
+
             } else {
                 swal("Mensaje", response.d.Mensaje, "warning");
             }
