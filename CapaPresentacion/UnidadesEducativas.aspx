@@ -75,8 +75,9 @@
                         </div>
                     </div>
                     <div class="card-footer text-center">
-                        <a href="#" class="btn btn-sm btn-secondary"><i class="fas fa-pencil-alt"></i> Editar</a>
-                        <button class="btn btn-sm btn-primary"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                        <a href="#" class="btn btn-sm btn-secondary mr-3"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="#" class="btn btn-sm btn-secondary mr-3"><i class="fas fa-eye"></i></a>
+                        <button class="btn btn-sm btn-primary"><i class="fas fa-trash-alt"></i></button>
                     </div>
                 </div>
             </div>

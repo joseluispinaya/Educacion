@@ -3,11 +3,43 @@
 var tabledos;
 let opcion = false;
 let detalleActLiss = [];
+let jsPDFInstance;
 
-function CargarDatosActivo() {
+$(document).ready(function () {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const idActivo = urlParams.get('id');
+    const { jsPDF } = window.jspdf;
+
+    if (idActivo !== null && idActivo.trim() !== "") {
+
+        if (typeof jsPDF !== 'undefined') {
+            jsPDFInstance = jsPDF; // Guarda la referencia de jsPDF
+            console.log("jsPDF está cargado correctamente.");
+        } else {
+            console.error("jsPDF no está cargado.");
+        }
+
+        CargarDatosActivo(idActivo);
+    } else {
+        swal({
+            title: "Mensaje",
+            text: "No hay parámetro de búsqueda válido en la URL",
+            type: "warning",
+            timer: 2000,
+            showConfirmButton: false
+        });
+
+        setTimeout(function () {
+            window.location.href = 'ListaActivos.aspx';
+        }, 3000);
+    }
+});
+
+function CargarDatosActivo(idActivo) {
 
     var request = {
-        IdActivo: 1
+        IdActivo: idActivo
     };
 
     $.ajax({
@@ -30,11 +62,17 @@ function CargarDatosActivo() {
 
                 var canti = activo.CantidadTotal;
                 var unidad = canti > 1 ? "Uds" : "Ud";
-                $("#lblCodigo").text("Codigo Activo: " + activo.Codigo);
-                $("#lblCantida").text("Cantidad total: " + canti + " " + unidad);
-                $("#lblUnidad").text("UE: " + activo.RefUnidaEducativa.Nombre);
-                $("#lblRespo").text("Resp: " + activo.RefUnidaEducativa.Responsable);
+                $("#lblCodigo").text(activo.Codigo);
+                $("#lblCantida").text(canti + " " + unidad);
+                $("#lblUnidad").text(activo.RefUnidaEducativa.Nombre);
+                $("#lblRespo").text(activo.RefUnidaEducativa.Responsable);
                 $("#txtComentario").val(activo.Comentario);
+
+                $("#lblFechar").text(activo.FechaRegistro);
+
+                var estado = activo.Estado ? 'El Activo esta Habilitado' : 'El Activo esta Suspendido';
+
+                $("#lblEstado").text(estado);
 
             } else {
                 swal("Mensaje", response.d.Mensaje, "warning");
@@ -82,9 +120,9 @@ function listaDetalleActivos() {
                                 </div>
                             </div>
                             <div class="col-sm-4 text-center">
-                                <a href="#" class="btn btn-sm btn-secondary btn-editar"
+                                <a href="#" class="btn btn-sm btn-primary btn-editar"
                                 data-activodetalle='${encodeURIComponent(JSON.stringify(activodetalle))}'>
-                                <i class="fas fa-pencil-alt"></i></a>
+                                <i class="fas fa-eye"></i></a>
                             </div>
                         </div>
                     </div>
@@ -135,7 +173,11 @@ $("#listarqr").on("change", ".flipswitch-cb", function () {
                 success: function (response) {
                     $(".showSweetAlert").LoadingOverlay("hide");
                     if (response.d.Estado) {
-                        CargarDatosActivo();
+                        const queryString = window.location.search;
+                        const urlParams = new URLSearchParams(queryString);
+                        const idActivo = urlParams.get('id');
+                        CargarDatosActivo(idActivo);
+
                         swal("Mensaje", response.d.Mensaje, "success");
                     } else {
                         swal("Mensaje", response.d.Mensaje, "error");
@@ -185,7 +227,11 @@ function registerDataQrDetalle() {
             $("#cargaloa").LoadingOverlay("hide");
             //console.log(response.d);
             if (response.d.Estado) {
-                CargarDatosActivo();
+                const queryString = window.location.search;
+                const urlParams = new URLSearchParams(queryString);
+                const idActivo = urlParams.get('id');
+                CargarDatosActivo(idActivo);
+
                 swal("Mensaje", response.d.Mensaje, "success");
             } else {
                 swal("Mensaje", response.d.Mensaje, "warning");
@@ -215,7 +261,47 @@ $('#btnGenerarQrs').on('click', function () {
     registerDataQrDetalle();
 });
 
-$('#btnVerDeta').on('click', function () {
+function generarPDF() {
+    if (jsPDFInstance) {
 
-    CargarDatosActivo();
+        $('.no-print').hide();
+        $('#accordionSidebar').hide();
+
+        const doc = new jsPDFInstance('p', 'pt', 'letter');
+        const margin = 10;
+        const scale = (doc.internal.pageSize.width - margin * 2) / document.body.scrollWidth;
+        //const scale = (doc.internal.pageSize.width - margin * 2) / document.body.clientWidth;
+
+        const seccion = document.getElementById('seccimpri');
+        if (!seccion) {
+            console.error("No se encontró el elemento con id 'seccimpri'");
+            return;
+        }
+
+        doc.html(seccion, {
+            x: margin,
+            y: margin,
+            html2canvas: {
+                scale: scale,
+            },
+            callback: function (doc) {
+                $('.no-print').show();
+                $('#accordionSidebar').show();
+                doc.save('Reporte-pdf.pdf');
+            }
+        });
+
+    } else {
+        console.error("jsPDF no está disponible en generarPDFHorizontal.");
+    }
+}
+
+$('#btnImprimir').on('click', function () {
+
+    generarPDF();  // Llama a la función cuando se haga clic en el botón
+});
+
+$('#btnReporteAct').on('click', function () {
+
+    //CargarDatosActivo();
 })

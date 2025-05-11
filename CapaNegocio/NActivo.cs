@@ -58,6 +58,15 @@ namespace CapaNegocio
             return DActivo.GetInstance().CambiaEstadoDetalleActivo(IdDetalleActivo, Estado);
         }
 
+        public Respuesta<List<EActivo>> ObtenerListaActivos()
+        {
+            return DActivo.GetInstance().ObtenerListaActivos();
+        }
+
+        public Respuesta<List<EActivo>> ObtenerActivosFull()
+        {
+            return DActivo.GetInstance().ObtenerActivosFull();
+        }
 
         public Respuesta<EActivo> ActivoPrueba()
         {

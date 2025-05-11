@@ -368,5 +368,156 @@ namespace CapaDatos
             }
         }
 
+        public Respuesta<List<EActivo>> ObtenerListaActivos()
+        {
+            try
+            {
+                List<EActivo> rptLista = new List<EActivo>();
+
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand comando = new SqlCommand("sp_ObtenerListaActivos", con))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        con.Open();
+
+                        using (SqlDataReader dr = comando.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                rptLista.Add(new EActivo()
+                                {
+                                    IdActivo = Convert.ToInt32(dr["IdActivo"]),
+                                    Codigo = dr["Codigo"].ToString(),
+                                    IdUnidadEdu = Convert.ToInt32(dr["IdUnidadEdu"]),
+                                    RefUnidaEducativa = new EUnidaEducativa
+                                    {
+                                        Nombre = dr["Nombre"].ToString(),
+                                        Responsable = dr["Responsable"].ToString()
+                                    },
+                                    Comentario = dr["Comentario"].ToString(),
+                                    CantidadTotal = Convert.ToInt32(dr["CantidadTotal"]),
+                                    Estado = Convert.ToBoolean(dr["Estado"]),
+                                    FechaRegistro = dr["FechaRegistro"].ToString(),
+                                });
+                            }
+                        }
+                    }
+                }
+                return new Respuesta<List<EActivo>>()
+                {
+                    Estado = true,
+                    Data = rptLista,
+                    Mensaje = "Activos obtenidos correctamente"
+                };
+            }
+            catch (Exception ex)
+            {
+                // Maneja cualquier error inesperado
+                return new Respuesta<List<EActivo>>()
+                {
+                    Estado = false,
+                    Mensaje = "Ocurrió un error: " + ex.Message,
+                    Data = null
+                };
+            }
+        }
+
+        public Respuesta<List<EActivo>> ObtenerActivosFull()
+        {
+            try
+            {
+                List<EActivo> rptLista = new List<EActivo>();
+
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    // Paso 1: Obtener las categorías
+                    using (SqlCommand comando = new SqlCommand("sp_ObtenerListaActivos", con))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        con.Open();
+
+                        using (SqlDataReader dr = comando.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                EActivo activo = new EActivo()
+                                {
+                                    IdActivo = Convert.ToInt32(dr["IdActivo"]),
+                                    Codigo = dr["Codigo"].ToString(),
+                                    IdUnidadEdu = Convert.ToInt32(dr["IdUnidadEdu"]),
+                                    RefUnidaEducativa = new EUnidaEducativa
+                                    {
+                                        Nombre = dr["Nombre"].ToString(),
+                                        Responsable = dr["Responsable"].ToString()
+                                    },
+                                    Comentario = dr["Comentario"].ToString(),
+                                    CantidadTotal = Convert.ToInt32(dr["CantidadTotal"]),
+                                    Estado = Convert.ToBoolean(dr["Estado"]),
+                                    FechaRegistro = dr["FechaRegistro"].ToString(),
+                                    ListaDetalleActivos = new List<EDetalleActivo>() // Inicializamos la lista vacía
+                                };
+
+                                rptLista.Add(activo);
+                            }
+                        }
+                    }
+
+                    // Paso 2: Obtener los productos para cada categoría
+                    foreach (var activo in rptLista)
+                    {
+                        using (SqlCommand detalleCmd = new SqlCommand("sp_ObtenerDetalleActivo", con))
+                        {
+                            detalleCmd.CommandType = CommandType.StoredProcedure;
+                            detalleCmd.Parameters.AddWithValue("@IdActivo", activo.IdActivo);
+
+                            using (SqlDataReader detalleDr = detalleCmd.ExecuteReader())
+                            {
+                                while (detalleDr.Read())
+                                {
+                                    EDetalleActivo detalle = new EDetalleActivo()
+                                    {
+                                        IdDetalleActivo = Convert.ToInt32(detalleDr["IdDetalleActivo"]),
+                                        RefTipoActivo = new ETipoActivo
+                                        {
+                                            Nombre = detalleDr["Nombre"].ToString()
+                                        },
+                                        NombreArticulo = detalleDr["NombreArticulo"].ToString(),
+                                        Marca = detalleDr["Marca"].ToString(),
+                                        NroSerie = detalleDr["NroSerie"].ToString(),
+                                        DetalleInfo = detalleDr["DetalleInfo"].ToString(),
+                                        RutaQR = detalleDr["RutaQr"].ToString(),
+                                        CodAlterno = detalleDr["CodAlterno"].ToString(),
+                                        Activo = Convert.ToBoolean(detalleDr["Activo"])
+                                    };
+
+                                    activo.ListaDetalleActivos.Add(detalle);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Si llegamos aquí, la operación fue exitosa
+                return new Respuesta<List<EActivo>>()
+                {
+                    Estado = true,
+                    Data = rptLista,
+                    Mensaje = "Activos y detalle obtenidos correctamente"
+                };
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores y retorno en caso de excepción
+                return new Respuesta<List<EActivo>>()
+                {
+                    Estado = false,
+                    Mensaje = "Ocurrió un error al obtener los activos: " + ex.Message,
+                    Data = null
+                };
+            }
+        }
+
+
     }
 }

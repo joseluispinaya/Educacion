@@ -5,7 +5,9 @@
         .align-middlea {
             vertical-align: middle !important;
         }
-
+        #seccimpri {
+            width: 100% !important;
+        }
         .cardze {
             display: flex;
             flex-direction: column;
@@ -29,6 +31,11 @@
                 object-fit: cover;
                 border: 2px solid #fff;
             }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -39,34 +46,39 @@
         <div class="card-body">
 
             <div class="row" id="loadda">
-                <div class="col-sm-8">
-                    <div class="text-start" style="font-size: 14px">
-                        <p id="lblCodigo" class="m-1">Nom</p>
-                        <p id="lblCantida" class="m-1">Dir</p>
-                        <p id="lblUnidad" class="m-1">Un</p>
-                        <p id="lblRespo" class="m-1">Res</p>
-                    </div>
-                    <div class="row justify-content-center mb-2">
-                        <button type="button" id="btnVerDeta" class="btn btn-success btn-sm mr-3"><i class="fas fa-user-plus"></i> Prueba detalle</button>
-                        <button type="button" id="btnInform" class="btn btn-primary btn-sm"><i class="fas fa-tools"></i> Informacion</button>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="txtComentario">Comentario</label>
+                        <textarea class="form-control" readonly="readonly" rows="2" id="txtComentario"></textarea>
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <div class="form-group mb-2">
-                        <label for="txtComentario">Comentario</label>
-                        <textarea class="form-control" readonly="readonly" rows="2" id="txtComentario"></textarea>
+                    <div class="text-start" style="font-size: 14px">
+                        <p class="m-1"><b>Nro Codigo: </b><span id="lblCodigo"></span></p>
+                        <p class="m-1"><b>Cantidad total: </b><span id="lblCantida"></span></p>
+                        <p class="m-1"><b>Unidad E: </b><span id="lblUnidad"></span></p>
+                        <p class="m-1"><b>Director: </b><span id="lblRespo"></span></p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="text-start" style="font-size: 14px">
+                        <p class="m-1"><b>Registrado el: </b><span id="lblFechar"></span></p>
+                        <p class="m-1"><b>Estado: </b><span id="lblEstado"></span></p>
+                    </div>
+                    <div class="form-group mt-2">
+                        <button type="button" id="btnReporteAct" class="btn btn-primary btn-sm"><i class="fas fa-print mr-2"></i>Imprimir</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="card shadow mb-4">
+    <div class="card shadow mb-4" id="seccimpri">
         <div class="card-header py-3 bg-second-primary">
             <h6 class="m-0 font-weight-bold text-white"><i class="fas fa-address-book mr-3"></i>Detalles de activos</h6>
         </div>
         <div class="card-body" id="cargaloa">
-            <div class="row justify-content-center mb-4">
+            <div class="row justify-content-center mb-4 no-print">
                 <button type="button" id="btnImprimir" class="btn btn-success btn-sm mr-3"><i class="fas fa-print"></i> Imprimir</button>
                 <button type="button" id="btnGenerarQrs" class="btn btn-secondary btn-sm mr-3"><i class="fas fa-qrcode"></i> Generar QR</button>
                 <button type="button" id="btnInotro" class="btn btn-primary btn-sm"><i class="fas fa-tools"></i> Alterno</button>
@@ -80,5 +92,7 @@
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="footer" runat="server">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.js"></script>
     <script src="jsdev/ActivoDetalles.js" type="text/javascript"></script>
 </asp:Content>

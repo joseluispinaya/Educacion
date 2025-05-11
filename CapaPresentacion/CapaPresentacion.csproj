@@ -90,12 +90,14 @@
     <Content Include="IndexPage.aspx" />
     <Content Include="jsdev\ActivoDetalles.js" />
     <Content Include="jsdev\ActivosRegistro.js" />
+    <Content Include="jsdev\ListaActivos.js" />
     <Content Include="jsdev\UsuariosSis.js" />
     <Content Include="js\sb-admin-2.js" />
     <Content Include="js\sb-admin-2.min.js" />
     <Content Include="js\vistas\chart-bar-demo.js" />
     <Content Include="js\vistas\chart-pie-demo.js" />
     <Content Include="js\vistas\datatables-demo.js" />
+    <Content Include="ListaActivos.aspx" />
     <Content Include="UnidadesEducativas.aspx" />
     <Content Include="UsuariosSis.aspx" />
     <Content Include="vendor\bootstrap\js\bootstrap.bundle.js" />
@@ -1814,6 +1816,13 @@
     </Compile>
     <Compile Include="IndexPage.aspx.designer.cs">
       <DependentUpon>IndexPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ListaActivos.aspx.cs">
+      <DependentUpon>ListaActivos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ListaActivos.aspx.designer.cs">
+      <DependentUpon>ListaActivos.aspx</DependentUpon>
     </Compile>
     <Compile Include="PaginaMas.Master.cs">
       <DependentUpon>PaginaMas.Master</DependentUpon>
