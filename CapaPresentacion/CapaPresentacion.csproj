@@ -72,6 +72,7 @@
   <ItemGroup>
     <Content Include="ActivoDetalles.aspx" />
     <Content Include="ActivosRegistro.aspx" />
+    <Content Include="ConsultasQR.aspx" />
     <Content Include="css\cardzer.css" />
     <Content Include="css\sb-admin-2.css" />
     <Content Include="css\sb-admin-2.min.css" />
@@ -80,6 +81,7 @@
     <Content Include="Imagenes\img1.jpeg" />
     <Content Include="Imagenes\img2.jpeg" />
     <Content Include="Imagenes\imgjo.jpg" />
+    <Content Include="imgqr\qrbcode.jpeg" />
     <Content Include="imgqr\soloqr.jpg" />
     <Content Include="img\undraw_posting_photo.svg" />
     <Content Include="img\undraw_profile.svg" />
@@ -90,6 +92,7 @@
     <Content Include="IndexPage.aspx" />
     <Content Include="jsdev\ActivoDetalles.js" />
     <Content Include="jsdev\ActivosRegistro.js" />
+    <Content Include="jsdev\ConsultasQR.js" />
     <Content Include="jsdev\ListaActivos.js" />
     <Content Include="jsdev\UsuariosSis.js" />
     <Content Include="js\sb-admin-2.js" />
@@ -1786,6 +1789,7 @@
     <Content Include="vendor\jquery\jquery.slim.js" />
     <Content Include="vendor\jquery\jquery.slim.min.js" />
     <Content Include="vendor\loadingoverlay\loadingoverlay.min.js" />
+    <Content Include="vendor\plugins\scanapp.min.js" />
     <Content Include="vendor\select2\es.min.js" />
     <Content Include="vendor\select2\select2.min.css" />
     <Content Include="vendor\select2\select2.min.js" />
@@ -1809,6 +1813,13 @@
     </Compile>
     <Compile Include="ActivosRegistro.aspx.designer.cs">
       <DependentUpon>ActivosRegistro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultasQR.aspx.cs">
+      <DependentUpon>ConsultasQR.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ConsultasQR.aspx.designer.cs">
+      <DependentUpon>ConsultasQR.aspx</DependentUpon>
     </Compile>
     <Compile Include="IndexPage.aspx.cs">
       <DependentUpon>IndexPage.aspx</DependentUpon>

@@ -68,6 +68,11 @@ namespace CapaNegocio
             return DActivo.GetInstance().ObtenerActivosFull();
         }
 
+        public Respuesta<EResponseInfo> ObtenerInfoQR(string CodAlterno)
+        {
+            return DActivo.GetInstance().ObtenerInfoQR(CodAlterno);
+        }
+
         public Respuesta<EActivo> ActivoPrueba()
         {
             try

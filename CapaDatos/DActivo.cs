@@ -518,6 +518,68 @@ namespace CapaDatos
             }
         }
 
+        public Respuesta<EResponseInfo> ObtenerInfoQR(string CodAlterno)
+        {
+            try
+            {
+                EResponseInfo obj = null;
 
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand comando = new SqlCommand("sp_ObtenerDetalleActivoQr", con))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.AddWithValue("@CodAlterno", CodAlterno);
+
+                        con.Open();
+                        using (SqlDataReader dr = comando.ExecuteReader())
+                        {
+                            if (dr.Read())
+                            {
+                                obj = new EResponseInfo
+                                {
+                                    IdDetalleActivo = Convert.ToInt32(dr["IdDetalleActivo"]),
+                                    Nombre = dr["Nombre"].ToString(),
+                                    Responsable = dr["Responsable"].ToString(),
+                                    NombreArticulo = dr["NombreArticulo"].ToString(),
+                                    Marca = dr["Marca"].ToString(),
+                                    NroSerie = dr["NroSerie"].ToString(),
+                                    DetalleInfo = dr["DetalleInfo"].ToString(),
+                                    Activo = Convert.ToBoolean(dr["Activo"]),
+                                    FechaRegistro = dr["FechaRegistro"].ToString()
+                                };
+                            }
+                        }
+                    }
+                }
+
+                return new Respuesta<EResponseInfo>
+                {
+                    Estado = obj != null,
+                    Data = obj,
+                    Mensaje = obj != null ? "Informacion obtenida exitosamente" : "Ocurrio un error vuelva a intentar"
+                };
+            }
+            catch (SqlException ex)
+            {
+                // Manejo de excepciones relacionadas con la base de datos
+                return new Respuesta<EResponseInfo>
+                {
+                    Estado = false,
+                    Mensaje = "Error en la base de datos: " + ex.Message,
+                    Data = null
+                };
+            }
+            catch (Exception ex)
+            {
+                // Manejo de excepciones generales
+                return new Respuesta<EResponseInfo>
+                {
+                    Estado = false,
+                    Mensaje = "Ocurrió un error inesperado: " + ex.Message,
+                    Data = null
+                };
+            }
+        }
     }
 }

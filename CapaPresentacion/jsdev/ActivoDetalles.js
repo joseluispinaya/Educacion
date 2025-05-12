@@ -296,9 +296,43 @@ function generarPDF() {
     }
 }
 
+function generarPDFdos() {
+    if (jsPDFInstance) {
+        $('.no-print').hide();
+        $('#accordionSidebar').hide();
+
+        const doc = new jsPDFInstance('p', 'pt', 'letter');
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const margin = 10;
+        const contentWidth = document.getElementById('seccimpri').scrollWidth;
+        const scale = (pageWidth - margin * 2) / contentWidth;
+
+        const xCentered = (pageWidth - contentWidth * scale) / 2;
+
+        doc.html(document.getElementById('seccimpri'), {
+            x: xCentered,
+            y: margin + 30, // Deja espacio para el encabezado
+            html2canvas: {
+                scale: scale
+            },
+            callback: function (doc) {
+                doc.setFontSize(16);
+                doc.setFont("helvetica", "bold");
+                doc.text("REPORTE DE ACTIVOS", pageWidth / 2, 30, { align: "center" });
+
+                $('.no-print').show();
+                $('#accordionSidebar').show();
+                doc.save('Reporte-pdf.pdf');
+            }
+        });
+    } else {
+        console.error("jsPDF no está disponible.");
+    }
+}
+
 $('#btnImprimir').on('click', function () {
 
-    generarPDF();  // Llama a la función cuando se haga clic en el botón
+    generarPDFdos();  // Llama a la función cuando se haga clic en el botón
 });
 
 $('#btnReporteAct').on('click', function () {
