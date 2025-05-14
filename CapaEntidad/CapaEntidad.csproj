@@ -45,6 +45,7 @@
     <Compile Include="EArea.cs" />
     <Compile Include="EDetalleActivo.cs" />
     <Compile Include="EResponseInfo.cs" />
+    <Compile Include="ERol.cs" />
     <Compile Include="ETipoActivo.cs" />
     <Compile Include="EUnidaEducativa.cs" />
     <Compile Include="EUsuario.cs" />

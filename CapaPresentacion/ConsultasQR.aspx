@@ -33,8 +33,9 @@
                                         <img src="imgqr/qrbcode.jpeg" class="img-fluid mt-3" alt="" id="imagenReferencial">
                                         <div id="reader" width="600px"></div>
                                         <div class="mt-2 w-full">
-                                            <select class="form-control form-control-sm" id="listaCamaras">
-                                            </select>
+                                            <button type="button" id="btnIniciarCa" class="btn btn-primary w-100 mt-2">Leer QR</button>
+                                            <%--<select class="form-control form-control-sm" id="listaCamaras">
+                                            </select>--%>
                                             <button type="button" id="btnDetenerCa" class="btn btn-danger w-100 mt-2">Detener camara</button>
                                         </div>
                                     </div>
@@ -89,5 +90,6 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="footer" runat="server">
     <script src="vendor/plugins/scanapp.min.js"></script>
-    <script src="jsdev/ConsultasQR.js" type="text/javascript"></script>
+    <script src="jsdev/pruebascan.js" type="text/javascript"></script>
+    <%--<script src="jsdev/ConsultasQR.js" type="text/javascript"></script>--%>
 </asp:Content>

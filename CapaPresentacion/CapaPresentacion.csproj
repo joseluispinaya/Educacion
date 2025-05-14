@@ -94,6 +94,7 @@
     <Content Include="jsdev\ActivosRegistro.js" />
     <Content Include="jsdev\ConsultasQR.js" />
     <Content Include="jsdev\ListaActivos.js" />
+    <Content Include="jsdev\pruebascan.js" />
     <Content Include="jsdev\UsuariosSis.js" />
     <Content Include="js\sb-admin-2.js" />
     <Content Include="js\sb-admin-2.min.js" />

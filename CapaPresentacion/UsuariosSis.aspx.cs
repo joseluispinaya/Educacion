@@ -17,26 +17,26 @@ namespace CapaPresentacion
 
 		}
 
-        [WebMethod]
-        public static Respuesta<List<EUsuario>> ListaUsuarios()
-        {
-            try
-            {
+        //[WebMethod]
+        //public static Respuesta<List<EUsuario>> ListaUsuarios()
+        //{
+        //    try
+        //    {
 
-                Respuesta<List<EUsuario>> Lista = NUsuario.GetInstance().ObtenerUsuarios();
-                return Lista;
-            }
-            catch (Exception ex)
-            {
-                // Maneja cualquier error inesperado
-                return new Respuesta<List<EUsuario>>()
-                {
-                    Estado = false,
-                    Mensaje = "Error al obtener los usuarios: " + ex.Message,
-                    Data = null
-                };
-            }
-        }
+        //        Respuesta<List<EUsuario>> Lista = NUsuario.GetInstance().ObtenerUsuarios();
+        //        return Lista;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Maneja cualquier error inesperado
+        //        return new Respuesta<List<EUsuario>>()
+        //        {
+        //            Estado = false,
+        //            Mensaje = "Error al obtener los usuarios: " + ex.Message,
+        //            Data = null
+        //        };
+        //    }
+        //}
 
     }
 }

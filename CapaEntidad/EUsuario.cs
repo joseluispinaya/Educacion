@@ -14,10 +14,17 @@ namespace CapaEntidad
         public string Correo { get; set; }
         public string Clave { get; set; }
         public string Celular { get; set; }
-        public string Foto { get; set; }
+        public string ImagenUrl { get; set; }
+        public int IdRol { get; set; }
+        public ERol Rol { get; set; }
+        public string Token { get; set; }
+        public bool Activo { get; set; }
+        public bool Verificado { get; set; }
+        public string FechaRegistro { get; set; }
+        public DateTime VFechaRegistro { get; set; }
         public string FullName => $"{Nombres} {Apellidos}";
-        public string ImageFull => string.IsNullOrEmpty(Foto)
+        public string ImageFull => string.IsNullOrEmpty(ImagenUrl)
             ? $"/Imagenes/imgjo.jpg"
-            : Foto;
+            : ImagenUrl;
     }
 }

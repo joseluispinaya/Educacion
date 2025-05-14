@@ -2,8 +2,24 @@
 let html5QrCode = null;
 
 $(document).ready(function () {
+    //Html5Qrcode.getCameras().then(function (camaras) {
+    //    if (camaras && camaras.length) {
+    //        let html = `<option value="" selected>Seleccione una cámara</option>`;
+
+    //        camaras.forEach(function (camara) {
+    //            html += `<option value="${camara.id}">${camara.label}</option>`;
+    //        });
+
+    //        $('#listaCamaras').html(html);
+    //    }
+    //}).catch(function (err) {
+    //    console.error("Error al obtener cámaras: ", err);
+    //});
+    cargarListaCamaras();
+});
+
+function cargarListaCamaras() {
     Html5Qrcode.getCameras().then(function (camaras) {
-        //console.log(camaras);
         if (camaras && camaras.length) {
             let html = `<option value="" selected>Seleccione una cámara</option>`;
 
@@ -16,7 +32,7 @@ $(document).ready(function () {
     }).catch(function (err) {
         console.error("Error al obtener cámaras: ", err);
     });
-});
+}
 
 function CargarInfoActivo(codAlterno) {
 
@@ -111,14 +127,16 @@ function lecturaCorrecta(decodedText, decodedResult) {
         html5QrCode.clear();
         console.log("Lector detenido después de lectura exitosa.");
         $('#imagenReferencial').show(); // Opcional: mostrar imagen otra vez
+        cargarListaCamaras();
+        CargarInfoActivo(decodedText);
     }).catch((err) => {
         console.error("Error al detener después de lectura:", err);
     });
 
-    swal("Mensaje", decodedText, "warning");
-    // Aquí puedes hacer algo con decodedText, por ejemplo:
-    // enviar a backend, mostrar en pantalla, redirigir, etc.
+    //swal("Mensaje", decodedText, "warning");
     // Aquí puedes manejar el contenido del QR
+    //CargarInfoActivo(decodedText);
+
 }
 
 // Función para manejar errores de lectura
@@ -134,6 +152,7 @@ $(document).on('click', '#btnDetenerCa', function () {
             html5QrCode.clear();
             console.log("Cámara detenida.");
             $('#imagenReferencial').show(); // Mostramos nuevamente la imagen
+            cargarListaCamaras();
         }).catch((err) => {
             console.error("Error al detener cámara:", err);
         });
