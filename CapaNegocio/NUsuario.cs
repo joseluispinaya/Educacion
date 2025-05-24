@@ -48,6 +48,11 @@ namespace CapaNegocio
             return DUsuario.GetInstance().ActualizarClave(IdUser, NuevaClave);
         }
 
+        public Respuesta<EResponseApp> LoginUsuarioApp(string Correo, string Clave)
+        {
+            return DUsuario.GetInstance().LoginUsuarioApp(Correo, Clave);
+        }
+
         public Respuesta<List<ERol>> ListaRoles()
         {
             return DUsuario.GetInstance().ListaRoles();

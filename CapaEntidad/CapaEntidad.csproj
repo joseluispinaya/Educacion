@@ -44,11 +44,13 @@
     <Compile Include="EActivo.cs" />
     <Compile Include="EArea.cs" />
     <Compile Include="EDetalleActivo.cs" />
+    <Compile Include="EResponseApp.cs" />
     <Compile Include="EResponseInfo.cs" />
     <Compile Include="ERol.cs" />
     <Compile Include="ETipoActivo.cs" />
     <Compile Include="EUnidaEducativa.cs" />
     <Compile Include="EUsuario.cs" />
+    <Compile Include="LoginDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Respuesta.cs" />
   </ItemGroup>

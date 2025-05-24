@@ -11,5 +11,6 @@
         public string DetalleInfo { get; set; }
         public bool Activo { get; set; }
         public string FechaRegistro { get; set; }
+        public string ValorActivo => Activo ? "Activo" : "Inactivo";
     }
 }

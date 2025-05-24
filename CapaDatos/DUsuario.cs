@@ -283,6 +283,69 @@ namespace CapaDatos
             }
         }
 
+        public Respuesta<EResponseApp> LoginUsuarioApp(string Correo, string Clave)
+        {
+            try
+            {
+                EResponseApp obj = null;
+
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand comando = new SqlCommand("usp_LogeoAppMovil", con))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        //comando.CommandTimeout = 30;
+                        comando.Parameters.AddWithValue("@Correo", Correo);
+                        comando.Parameters.AddWithValue("@Clave", Clave);
+
+                        con.Open();
+                        using (SqlDataReader dr = comando.ExecuteReader())
+                        {
+                            if (dr.Read())
+                            {
+                                obj = new EResponseApp
+                                {
+                                    FullNombre = dr["NombreCom"].ToString(),
+                                    Correo = dr["Correo"].ToString(),
+                                    Celular = dr["Celular"].ToString(),
+                                    ImagenUrl = dr["ImagenUrl"].ToString(),
+                                    Activo = Convert.ToBoolean(dr["Activo"]),
+                                    Rol = dr["DescripcionRol"].ToString()
+                                };
+                            }
+                        }
+                    }
+                }
+
+                return new Respuesta<EResponseApp>
+                {
+                    Estado = obj != null,
+                    Data = obj,
+                    Mensaje = obj != null ? "Usuario obtenido correctamente" : "Credenciales incorrectas o usuario no encontrado"
+                };
+            }
+            catch (SqlException ex)
+            {
+                // Manejo de excepciones relacionadas con la base de datos
+                return new Respuesta<EResponseApp>
+                {
+                    Estado = false,
+                    Mensaje = "Error en la base de datos: " + ex.Message,
+                    Data = null
+                };
+            }
+            catch (Exception ex)
+            {
+                // Manejo de excepciones generales
+                return new Respuesta<EResponseApp>
+                {
+                    Estado = false,
+                    Mensaje = "Ocurrió un error inesperado: " + ex.Message,
+                    Data = null
+                };
+            }
+        }
+
         public Respuesta<List<ERol>> ListaRoles()
         {
             try
@@ -326,5 +389,7 @@ namespace CapaDatos
                 };
             }
         }
+
+
     }
 }
