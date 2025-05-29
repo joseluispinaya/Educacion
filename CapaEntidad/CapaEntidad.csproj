@@ -44,6 +44,7 @@
     <Compile Include="EActivo.cs" />
     <Compile Include="EArea.cs" />
     <Compile Include="EDetalleActivo.cs" />
+    <Compile Include="ERequestAc.cs" />
     <Compile Include="EResponseApp.cs" />
     <Compile Include="EResponseInfo.cs" />
     <Compile Include="ERol.cs" />
