@@ -47,6 +47,10 @@ namespace CapaNegocio
         {
             return DUsuario.GetInstance().ActualizarClave(IdUser, NuevaClave);
         }
+        public Respuesta<string> ObtenerToken(int Iduser)
+        {
+            return DUsuario.GetInstance().ObtenerToken(Iduser);
+        }
 
         public Respuesta<EResponseApp> LoginUsuarioApp(string Correo, string Clave)
         {

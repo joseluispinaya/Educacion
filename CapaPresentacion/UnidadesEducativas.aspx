@@ -12,132 +12,85 @@
             font-family: sans-serif;
             margin: 5px;
         }
-        .imageze {
-            height: 100px;
-            width: 100px;
-            /*background: #8e44ad;
-            padding: 3px;
-            border-radius: 50%;*/
-            margin: 0 auto;
-        }
-
-            .imageze .imgre {
-                height: 100%;
-                width: 100%;
-                /*border-radius: 50%;*/
-                object-fit: cover;
-                border: 2px solid #fff;
-            }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-    <div class="row justify-content-center mb-2">
-        <button type="button" id="btnAdd" class="btn btn-success btn-sm mr-3"><i class="fas fa-home"></i> Nuevo Registro</button>
-        <button type="button" id="btnDetallee" class="btn btn-primary btn-sm"><i class="fas fa-tools"></i> Informacion</button>
-    </div>
+   <div class="row justify-content-center mb-2">
+  <button type="button" id="btnAddNuevoUn" class="btn btn-success btn-sm mr-3"><i class="fas fa-school"></i> Nuevo
+    registro</button>
+  <button type="button" id="btnReporteUni" class="btn btn-primary btn-sm"><i class="fas fa-file-pdf"></i> Reporte</button>
+</div>
 
-    <div class="card shadow mb-4">
-    <div class="card-header py-3 bg-second-primary">
-        <h6 class="m-0 font-weight-bold text-white"><i class="fas fa-address-book"></i> UNIDADES EDUCATIVAS REGISTRADOS</h6>
+<div class="card shadow mb-4">
+  <div class="card-header bg-second-primary">
+    <h6 class="m-0 font-weight-bold text-white"><i class="fas fa-address-book"></i> UNIDADES EDUCATIVAS REGISTRADAS</h6>
+  </div>
+  <div class="card-body" id="loaddet">
+    <div class="row gx-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-start mt-2" id="listarUni">
+
     </div>
-    <div class="card-body" id="loadUnd">
-        <div class="row gx-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-start mt-1" id="listaUn">
-            <div class="col mb-3">
-                <div class="cardze h-100">
-                    <div class="text-center"  style="padding-top: 10px;">
-                        <div class="imageze">
-                            <img class="imgre" src="imgqr/soloqr.jpg" alt="Foto usuario">
-                        </div>
-                    </div>
-                    <div class="card-body" style="padding: 0.2rem 1.25rem;">
-                        <div class="text-start" style="font-size:14px">
-                            <p class="m-1">Nombre de unidad 1</p>
-                            <p class="m-1">Direccion de un</p>
-                            <p class="m-1">Responsable Responsable Responsable Responsable Responsable</p>
-                        </div>
-                    </div>
-                    <div class="card-footer text-center">
-                        <a href="#" class="btn btn-sm btn-secondary"><i class="fas fa-pencil-alt"></i>Editar</a>
-                        <button class="btn btn-sm btn-primary"><i class="fas fa-trash-alt"></i>Eliminar</button>
-                    </div>
-                </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalDataUni" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 id="myTitulope">Detalle Accion</h6>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" value="0" id="txtIdUnidad">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-row">
+              <div class="form-group col-sm-6">
+                <label for="txtNombre">Nombre Unidad</label>
+                <input type="text" class="form-control form-control-sm input-validar" id="txtNombre" name="Nombre Unidad">
+              </div>
+              <div class="form-group col-sm-6">
+                <label for="txtResponsable">Responsable</label>
+                <input type="text" class="form-control form-control-sm input-validar" id="txtResponsable" name="Responsable">
+              </div>
             </div>
-            <div class="col mb-3">
-                <div class="cardze h-100">
-                    <div class="text-center" style="padding-top: 20px;">
-                        <i class="fas fa-school" style="font-size: 50px"></i>
-                    </div>
-                    <div class="card-body">
-                        <div class="text-start" style="font-size: 14px">
-                            <p class="m-1">Nombre de unidad 2</p>
-                            <p class="m-1">Direccion de un</p>
-                            <p class="m-1">Responsable</p>
-                        </div>
-                    </div>
-                    <div class="card-footer text-center">
-                        <a href="#" class="btn btn-sm btn-secondary mr-3"><i class="fas fa-pencil-alt"></i></a>
-                        <a href="#" class="btn btn-sm btn-secondary mr-3"><i class="fas fa-eye"></i></a>
-                        <button class="btn btn-sm btn-primary"><i class="fas fa-trash-alt"></i></button>
-                    </div>
-                </div>
+            <div class="form-row">
+              <div class="form-group col-sm-6">
+                <label for="txtCelular">Celular</label>
+                <input type="text" class="form-control form-control-sm input-validar" id="txtCelular" name="Celular">
+              </div>
+              <div class="form-group col-sm-6">
+                <label for="txtUbicacion">Ubicacion</label>
+                <input type="text" class="form-control form-control-sm input-validar" id="txtUbicacion" name="Ubicacion">
+              </div>
             </div>
-            <div class="col mb-3">
-                <div class="cardze h-100">
-                    <div class="text-center" style="padding-top: 20px;">
-                        <i class="fas fa-school" style="font-size: 50px"></i>
-                    </div>
-                    <div class="card-body">
-                        <div class="text-start" style="font-size: 14px">
-                            <p class="m-1">Nombre de unidad 3</p>
-                            <p class="m-1">Direccion de un</p>
-                            <p class="m-1">Responsable</p>
-                        </div>
-                    </div>
-                    <div class="card-footer text-center">
-                        <a href="#" class="btn btn-sm btn-secondary"><i class="fas fa-pencil-alt"></i> Editar</a>
-                        <button class="btn btn-sm btn-primary"><i class="fas fa-trash-alt"></i> Eliminar</button>
-                    </div>
-                </div>
+            <div class="form-row">
+              <div class="form-group col-sm-6">
+                <label for="cboEstado">Estado</label>
+                <select class="form-control form-control-sm" id="cboEstado">
+                  <option value="1">Activo</option>
+                  <option value="0">No Activo</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-6">
+                <label for="cboArea">Seleccione Area</label>
+                <select class="form-control form-control-sm" id="cboArea">
+                </select>
+              </div>
             </div>
-            <div class="col mb-3">
-                <div class="cardze h-100">
-                    <div class="text-center" style="padding-top: 20px;">
-                        <i class="fas fa-school" style="font-size: 50px"></i>
-                    </div>
-                    <div class="card-body">
-                        <div class="text-start" style="font-size: 14px">
-                            <p class="m-1">Nombre de unidad 3</p>
-                            <p class="m-1">Direccion de un</p>
-                            <p class="m-1">Responsable</p>
-                        </div>
-                    </div>
-                    <div class="card-footer text-center">
-                        <a href="#" class="btn btn-sm btn-secondary"><i class="fas fa-pencil-alt"></i>Editar</a>
-                        <button class="btn btn-sm btn-primary"><i class="fas fa-trash-alt"></i>Eliminar</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-3">
-                <div class="cardze h-100">
-                    <div class="text-center" style="padding-top: 20px;">
-                        <i class="fas fa-school" style="font-size: 50px"></i>
-                    </div>
-                    <div class="card-body">
-                        <div class="text-start" style="font-size: 14px">
-                            <p class="m-1">Nombre de unidad 3</p>
-                            <p class="m-1">Direccion de un</p>
-                            <p class="m-1">Responsable</p>
-                        </div>
-                    </div>
-                    <div class="card-footer text-center">
-                        <a href="#" class="btn btn-sm btn-secondary"><i class="fas fa-pencil-alt"></i>Editar</a>
-                        <button class="btn btn-sm btn-primary"><i class="fas fa-trash-alt"></i>Eliminar</button>
-                    </div>
-                </div>
-            </div>
+          </div>
+
         </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btnGuardarCambiosUn" class="btn btn-primary btn-sm" type="button">Guardar</button>
+        <button class="btn btn-danger btn-sm" type="button" data-dismiss="modal">Cancelar</button>
+      </div>
     </div>
+  </div>
 </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="footer" runat="server">
+    <script src="jsdev/UnidadesEducativas.js" type="text/javascript"></script>
 </asp:Content>

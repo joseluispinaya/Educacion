@@ -112,6 +112,7 @@
     <Content Include="ActivosRegistro.aspx" />
     <Content Include="ConsultasQR.aspx" />
     <Content Include="css\cardzer.css" />
+    <Content Include="css\imgper\logologin.jpg" />
     <Content Include="css\sb-admin-2.css" />
     <Content Include="css\sb-admin-2.min.css" />
     <Content Include="css\switchjo.css" />
@@ -120,6 +121,8 @@
     <Content Include="Imagenes\img1.jpeg" />
     <Content Include="Imagenes\img2.jpeg" />
     <Content Include="Imagenes\imgjo.jpg" />
+    <Content Include="Imagenes\reporteedu.png" />
+    <Content Include="Imagenes\sinfoto.png" />
     <Content Include="imgqr\qrbcode.jpeg" />
     <Content Include="imgqr\soloqr.jpg" />
     <Content Include="img\undraw_posting_photo.svg" />
@@ -133,7 +136,9 @@
     <Content Include="jsdev\ActivosRegistro.js" />
     <Content Include="jsdev\ConsultasQR.js" />
     <Content Include="jsdev\ListaActivos.js" />
+    <Content Include="jsdev\Login.js" />
     <Content Include="jsdev\pruebascan.js" />
+    <Content Include="jsdev\UnidadesEducativas.js" />
     <Content Include="jsdev\UsuariosSis.js" />
     <Content Include="js\sb-admin-2.js" />
     <Content Include="js\sb-admin-2.min.js" />
@@ -141,6 +146,7 @@
     <Content Include="js\vistas\chart-pie-demo.js" />
     <Content Include="js\vistas\datatables-demo.js" />
     <Content Include="ListaActivos.aspx" />
+    <Content Include="Login.aspx" />
     <Content Include="UnidadesEducativas.aspx" />
     <Content Include="UsuariosSis.aspx" />
     <Content Include="vendor\bootstrap\js\bootstrap.bundle.js" />
@@ -1879,6 +1885,13 @@
     </Compile>
     <Compile Include="ListaActivos.aspx.designer.cs">
       <DependentUpon>ListaActivos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="PaginaMas.Master.cs">
       <DependentUpon>PaginaMas.Master</DependentUpon>

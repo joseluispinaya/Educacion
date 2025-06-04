@@ -24,7 +24,7 @@ namespace CapaEntidad
         public DateTime VFechaRegistro { get; set; }
         public string FullName => $"{Nombres} {Apellidos}";
         public string ImageFull => string.IsNullOrEmpty(ImagenUrl)
-            ? $"/Imagenes/imgjo.jpg"
+            ? $"/Imagenes/sinfoto.png"
             : ImagenUrl;
     }
 }
